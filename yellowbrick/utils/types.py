@@ -20,7 +20,12 @@ Detection utilities for Scikit-Learn and Numpy types for flexibility
 import inspect
 import numpy as np
 
-from sklearn.base import BaseEstimator
+from sklearn.base import (
+    BaseEstimator,
+    is_classifier as _sklearn_is_classifier,
+    is_regressor as _sklearn_is_regressor,
+    is_clusterer as _sklearn_is_clusterer,
+)
 from yellowbrick.contrib.wrapper import ContribEstimator
 
 
@@ -65,8 +70,8 @@ def is_classifier(estimator):
         `sklearn.is_classifier() <https://github.com/scikit-learn/scikit-learn/blob/master/sklearn/base.py#L518>`_
     """
 
-    # Test the _estimator_type property
-    return getattr(estimator, "_estimator_type", None) == "classifier"
+    # _estimator_type removed in sklearn 1.8 — delegate to sklearn
+    return _sklearn_is_classifier(estimator)
 
 
 # Alias for closer name to isinstance and issubclass
@@ -89,8 +94,8 @@ def is_regressor(estimator):
         `sklearn.is_regressor() <https://github.com/scikit-learn/scikit-learn/blob/master/sklearn/base.py#L531>`_
     """
 
-    # Test the _estimator_type property
-    return getattr(estimator, "_estimator_type", None) == "regressor"
+    # _estimator_type removed in sklearn 1.8 — delegate to sklearn
+    return _sklearn_is_regressor(estimator)
 
 
 # Alias for closer name to isinstance and issubclass
@@ -108,8 +113,8 @@ def is_clusterer(estimator):
         Scikit-Learn estimator or Yellowbrick visualizer
     """
 
-    # Test the _estimator_type property
-    return getattr(estimator, "_estimator_type", None) == "clusterer"
+    # _estimator_type removed in sklearn 1.8 — delegate to sklearn
+    return _sklearn_is_clusterer(estimator)
 
 
 # Alias for closer name to isinstance and issubclass
