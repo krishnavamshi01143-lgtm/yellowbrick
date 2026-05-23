@@ -24,7 +24,6 @@ from sklearn.base import (
     BaseEstimator,
     is_classifier as _sklearn_is_classifier,
     is_regressor as _sklearn_is_regressor,
-    is_clusterer as _sklearn_is_clusterer,
 )
 from yellowbrick.contrib.wrapper import ContribEstimator
 
@@ -112,10 +111,7 @@ def is_clusterer(estimator):
         The object to test if it is a Scikit-Learn clusterer, especially a
         Scikit-Learn estimator or Yellowbrick visualizer
     """
-
-    # _estimator_type removed in sklearn 1.8 — delegate to sklearn
-    return _sklearn_is_clusterer(estimator)
-
+    return getattr(estimator, "_estimator_type", None) == "clusterer"
 
 # Alias for closer name to isinstance and issubclass
 isclusterer = is_clusterer
